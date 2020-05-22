@@ -7,7 +7,7 @@ ENV LANG C.UTF-8
 ENV PYTHONDONTWRITEBYTECODE 1
 
 # -- Install Pipenv:
-RUN apt-get update && apt-get install -y build-essential git gettext-base
+RUN apt-get update && apt-get install -y build-essential git gettext-base curl
 
 RUN python -m pip install -U "pip>20"
 RUN python -m pip install "pipenv>=2020.4.1b1"
