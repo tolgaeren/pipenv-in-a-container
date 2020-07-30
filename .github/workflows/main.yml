@@ -18,7 +18,7 @@ jobs:
     - name: create Dockerfile from template
       run: |
         envsubst < Dockerfile.template > Dockerfile
-        if [[ "$PYTHON_VERSION" == 3.8 && "$PIPENV_VERSION" == 1.0.10 ]]; then
+        if [[ "$PYTHON_VERSION" == 3.8 && "$PIPENV_VERSION" == 2020.6.2 ]]; then
             echo ::set-env name=TAG::${{matrix.PYTHON_VERSION}}-${{matrix.PIPENV_VERSION}},latest
         else
             echo ::set-env name=TAG::${{matrix.PYTHON_VERSION}}-${{matrix.PIPENV_VERSION}}
