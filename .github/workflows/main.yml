@@ -21,7 +21,7 @@ jobs:
     - run: pipenv install
     - id: set-matrix
       run: |
-        output=$(pipenv run python fetch_releases.py)
+        output=$(pipenv run python fetch_releases.py --token ${{ secrets.TOKEN }})
         echo $output
         echo "::set-output name=matrix::"
   build-all-images:

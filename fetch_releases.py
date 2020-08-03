@@ -53,5 +53,11 @@ def fetch_releases(oauth_token, owner, name, last_n):
 
 
 if __name__ == "__main__":
-    releases = fetch_releases(os.environ["TOKEN"], "python-poetry", "poetry", 5)
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--token", help="Githun personal access token", type=str, default=None,
+    )
+
+    args = parser.parse_args()
+    releases = fetch_releases(args.token, "python-poetry", "poetry", 5)
     print(releases)
