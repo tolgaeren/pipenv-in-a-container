@@ -20,7 +20,7 @@ jobs:
         python-version: 3.7
     - id: set-matrix
       run: |
-        output=pipenv run fetch_releases.py
+        output=pipenv run python fetch_releases.py
         echo $output
         echo "::set-output name=matrix::"
   build-all-images:
