@@ -6,12 +6,27 @@ on:
     branches: [ master ]
 
 jobs:
+  fetch-releases:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+    - uses: dschep/install-pipenv-action@v1
+      with:
+        python-version: 3.7
+    - id: set-matrix
+      run: |
+        output=pipenv run fetch_releases.py
+        echo $output
+        echo "::set-output name=matrix::"
   build-all-images:
     runs-on: ubuntu-latest
     strategy:
-      matrix:
-        PYTHON_VERSION: [3.6, 3.7, 3.8]
-        PIPENV_VERSION: [2018.11.26, 2020.5.28, 2020.6.2]
+      matrix: ${{fromJson(needs.job1.outputs.matrix)}}
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
