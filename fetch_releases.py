@@ -1,5 +1,5 @@
 # adapted from https://github.com/simonw/simonw/blob/main/build_readme.py
-
+import argparse
 from python_graphql_client import GraphqlClient
 import json
 import pathlib
