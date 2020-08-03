@@ -33,11 +33,11 @@ query {
     )
 
 
-def fetch_releases(oauth_token, owner, name, last_n):
+def fetch_releases(token, owner, name, last_n):
     releases = []
     data = client.execute(
         query=make_query(owner, name, 100),
-        headers={"Authorization": "Bearer {}".format(oauth_token)},
+        headers={"Authorization": "Bearer {}".format(token)},
     )
     for release in reversed(data["data"]["repository"]["releases"]["nodes"]):
         tag_name = release["tagName"]
@@ -51,11 +51,20 @@ def fetch_releases(oauth_token, owner, name, last_n):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--token", help="Githun personal access token", type=str, default=None,
+        "--owner", help="owner of the repo", type=str, default=None,
+    )
+    parser.add_argument(
+        "--name", help="name of the repo", type=str, default=None,
+    )
+    parser.add_argument(
+        "--last_n", help="the last n releases", type=str, default=None,
+    )
+    parser.add_argument(
+        "--token", help="Github personal access token", type=str, default=None,
     )
 
     args = parser.parse_args()
-    pipenvs = fetch_releases(args.token, "pypa", "pipenv", 5)
+    pipenvs = fetch_releases(**vars(args))
     pythons = [3.8, 3.7, 3.6]
     matrix = {
         "include": [
