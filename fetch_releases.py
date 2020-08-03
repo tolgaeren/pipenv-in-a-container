@@ -58,7 +58,7 @@ if __name__ == "__main__":
     pipenvs = fetch_releases(args.token, "python-poetry", "poetry", 5)
     pythons = [3.8, 3.7, 3.6]
     matrix = {
-        "path": {
+        "Path": {
             "include": [
                 {"PIPENV_VERSION": pipenv_version, "PYTHON_VERSION": python_version}
                 for python_version in pythons
