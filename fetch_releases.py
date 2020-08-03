@@ -64,5 +64,5 @@ if __name__ == "__main__":
             for pipenv_version in pipenvs
         ]
     }
-    print(json.dumps(matrix).replace('"', r"\"").replace(' ', ''))
+    print(json.dumps(matrix))
 
