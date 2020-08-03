@@ -22,8 +22,7 @@ jobs:
     - id: set-matrix
       run: |
         OUTPUT=$(pipenv run python fetch_releases.py --token ${{ secrets.TOKEN }})
-        echo $OUTPUT
-        echo "::set-output name=matrix::$(echo $OUTPUT)"
+        echo "::set-output name=matrix::echo $OUTPUT"
   build-all-images:
     runs-on: ubuntu-latest
     strategy:
