@@ -55,7 +55,7 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
-    pipenvs = fetch_releases(args.token, "python-poetry", "poetry", 5)
+    pipenvs = fetch_releases(args.token, "pypa", "pipenv", 5)
     pythons = [3.8, 3.7, 3.6]
     matrix = {
         "include": [
@@ -64,5 +64,5 @@ if __name__ == "__main__":
             for pipenv_version in pipenvs
         ]
     }
-    print(json.dumps(matrix).replace('"', r"\""))
+    print(json.dumps(matrix).replace('"', r"\"").replace(' ', ''))
 
