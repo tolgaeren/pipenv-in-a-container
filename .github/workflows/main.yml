@@ -6,7 +6,7 @@ on:
     branches: [ master ]
 
 jobs:
-  fetchReleases:
+  fetch_eleases:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
@@ -27,7 +27,7 @@ jobs:
   build-all-images:
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{fromJson(needs.fetchReleases.outputs.matrix)}}
+      matrix: ${{fromJson(needs.fetch_releases.outputs.matrix)}}
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
