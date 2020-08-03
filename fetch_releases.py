@@ -39,17 +39,13 @@ def fetch_releases(oauth_token, owner, name, last_n):
         query=make_query(owner, name, 100),
         headers={"Authorization": "Bearer {}".format(oauth_token)},
     )
-    print()
-    print(json.dumps(data, indent=4))
-    print()
     for release in reversed(data["data"]["repository"]["releases"]["nodes"]):
         tag_name = release["tagName"]
         if tag_name.split(".")[-1].isnumeric():
-            releases.append(tag_name[1:] if tag_name[0]=="v" else tag_name)
+            releases.append(tag_name[1:] if tag_name[0] == "v" else tag_name)
         if len(releases) == last_n:
             break
     return releases
-
 
 
 if __name__ == "__main__":
@@ -59,5 +55,12 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
-    releases = fetch_releases(args.token, "python-poetry", "poetry", 5)
-    print(releases)
+    pipenvs = fetch_releases(args.token, "python-poetry", "poetry", 5)
+    pythons = [3.8, 3.7, 3.6]
+    matrix = {"include":[
+        {"PIPENV_VERSION": pipenv_version, "PYTHON_VERSION": python_version}
+        for python_version in pythons
+        for pipenv_version in pipenvs
+    ]}
+    print(json.dumps(matrix))
+

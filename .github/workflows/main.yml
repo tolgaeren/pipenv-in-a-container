@@ -22,12 +22,14 @@ jobs:
     - id: set-matrix
       run: |
         output=$(pipenv run python fetch_releases.py --token ${{ secrets.TOKEN }})
+        echo Hello
         echo $output
-        echo "::set-output name=matrix::"
+        echo Hello
+        echo "::set-output name=matrix::output"
   build-all-images:
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{fromJson(needs.job1.outputs.matrix)}}
+      matrix: ${{fromJson(needs.fetch-releases.outputs.matrix)}}
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
