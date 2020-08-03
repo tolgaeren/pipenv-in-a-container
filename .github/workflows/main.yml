@@ -22,7 +22,7 @@ jobs:
     - id: set-matrix
       run: |
         OUTPUT=$(pipenv run python fetch_releases.py --token ${{ secrets.TOKEN }})
-        echo "::set-output name=matrix::$OUTPUT"
+        echo "::set-output name=matrix::{\"include\":[{\"PYTHON_VERSION\":\"3.8\",\"PIPENV_VERSION\":\"2020.6.2\"},{\"PYTHON_VERSION\":\"3.7\",\"PIPENV_VERSION\":\"2020.6.2\"}]}"
         echo $OUTPUT
   build-all-images:
     runs-on: ubuntu-latest
