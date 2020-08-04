@@ -6,7 +6,7 @@ on:
     branches: [ master ]
 
 jobs:
-  fetch_releases:
+  generate-strategy-matrix:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
@@ -21,24 +21,19 @@ jobs:
     - run: pipenv install
     - id: set-matrix
       run: |
-        OUTPUT=$(pipenv run python fetch_releases.py --owner pypa --name pipenv --last_n 5 --token ${{ secrets.TOKEN }})
+        OUTPUT=$(pipenv run python generate_strategy_matrix.py --owner pypa --name pipenv --last_n 5 --token ${{ secrets.TOKEN }})
         echo "::set-output name=matrix::$OUTPUT"
   build-all-images:
-    needs: fetch_releases
+    needs: generate-strategy-matrix
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{fromJson(needs.fetch_releases.outputs.matrix)}}
+      matrix: ${{fromJson(needs.generate-strategy-matrix.outputs.matrix)}}
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
     - name: create Dockerfile from template
       run: |
         envsubst < Dockerfile.template > Dockerfile
-        if [[ "$PYTHON_VERSION" == 3.8 && "$PIPENV_VERSION" == 2020.6.2 ]]; then
-            echo ::set-env name=TAG::${{matrix.PYTHON_VERSION}}-${{matrix.PIPENV_VERSION}},latest
-        else
-            echo ::set-env name=TAG::${{matrix.PYTHON_VERSION}}-${{matrix.PIPENV_VERSION}}
-        fi
       env:
         PYTHON_VERSION: ${{ matrix.PYTHON_VERSION }}
         PIPENV_VERSION: ${{ matrix.PIPENV_VERSION }}
@@ -48,5 +43,5 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         repository: tolgaeren/pipenv-in-a-container
-        tags: ${{ env.TAG }}
+        tags: ${{ matrix.tags }}
   
