@@ -4,6 +4,8 @@ name: CD
 on:
   push:
     branches: [ master ]
+  schedule:
+    - cron: "15 8 * * 1"
 
 jobs:
   generate-strategy-matrix:
