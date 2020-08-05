@@ -11,5 +11,7 @@ RUN apt-get update && apt-get install -y build-essential git gettext-base curl
 
 RUN python -m pip install -U "pip>20"
 RUN python -m pip install "pipenv==$PIPENV_VERSION"
-COPY entrypoint.sh /
-ENTRYPOINT [ "/entrypoint.sh" ]
+
+WORKDIR /app
+# COPY entrypoint.sh /
+# ENTRYPOINT [ "/entrypoint.sh" ]
