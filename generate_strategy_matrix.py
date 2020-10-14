@@ -79,7 +79,7 @@ if __name__ == "__main__":
     )
 
     parser.add_argument(
-        "--python_versions", help='List of python versions for the base image. i.e. "3.8,3.7,3.6"', type=str, default="3.8,3.7,3.6",
+        "--python_versions", help='List of python versions for the base image. i.e. "3.8,3.9,3.7"', type=str, default="3.8,3.9,3.7",
     )
 
     args = parser.parse_args()
